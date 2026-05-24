@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jyothi Reddy — Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: #222222;
+    --border2: #2e2e2e;
+    --text: #f0ede8;
+    --text2: #8a8680;
+    --text3: #555250;
+    --accent: #c8f542;
+    --accent2: #a8d832;
+    --red: #ff4d4d;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --display: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent); color: #000; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  nav.scrolled { background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-color: var(--border); }
+  .nav-logo { font-family: var(--display); font-weight: 800; font-size: 1.1rem; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-family: var(--mono); font-size: 0.75rem; color: var(--text2); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
+    padding: 0.5rem 1.1rem; border: 1px solid var(--accent); color: var(--accent);
+    text-decoration: none; border-radius: 2px; transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); color: #000; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 2.5rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(200,245,66,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,245,66,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-glow {
+    position: absolute; top: -20%; right: -10%; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(200,245,66,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em;
+    color: var(--accent); margin-bottom: 1.5rem; position: relative; z-index: 1;
+    opacity: 0; animation: fadeUp 0.6s 0.2s forwards;
+  }
+  .hero-name {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    line-height: 0.95; letter-spacing: -0.03em;
+    color: var(--text);
+    position: relative; z-index: 1;
+    opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+  }
+  .hero-name em { color: var(--accent); font-style: normal; }
+  .hero-bottom {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-top: 2.5rem; position: relative; z-index: 1;
+    opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .hero-desc { font-size: 1.05rem; color: var(--text2); max-width: 480px; line-height: 1.65; font-weight: 300; }
+  .hero-desc strong { color: var(--text); font-weight: 400; }
+  .hero-stats { display: flex; gap: 2.5rem; }
+  .stat-item { text-align: right; }
+  .stat-num { font-family: var(--display); font-size: 2.2rem; font-weight: 800; color: var(--accent); line-height: 1; }
+  .stat-label { font-family: var(--mono); font-size: 0.65rem; color: var(--text3); letter-spacing: 0.08em; margin-top: 4px; }
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 0.65rem; color: var(--text3);
+    letter-spacing: 0.1em; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    animation: bounce 2s infinite;
+  }
+  .hero-scroll::after {
+    content: ''; display: block; width: 1px; height: 40px; background: var(--text3);
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 2.5rem; }
+  .section-label {
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3rem;
+  }
+  .divider { height: 1px; background: var(--border); margin: 0 2.5rem; }
+
+  /* ── ABOUT ── */
+  #about { max-width: 1100px; margin: 0 auto; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .about-text p { color: var(--text2); font-weight: 300; line-height: 1.8; margin-bottom: 1.2rem; font-size: 1.02rem; }
+  .about-text p strong { color: var(--text); font-weight: 400; }
+  .about-stack { display: flex; flex-direction: column; gap: 1rem; }
+  .stack-group { border: 1px solid var(--border); border-radius: 4px; padding: 1rem 1.25rem; }
+  .stack-group-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 0.6rem; }
+  .stack-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-family: var(--mono); font-size: 0.7rem; padding: 3px 10px;
+    border: 1px solid var(--border2); border-radius: 2px; color: var(--text2);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+  .tag.highlight { border-color: var(--accent); color: var(--accent); }
+
+  /* ── EXPERIENCE ── */
+  #experience { max-width: 1100px; margin: 0 auto; }
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 3rem; padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .exp-item.visible { opacity: 1; transform: none; }
+  .exp-meta { padding-top: 4px; }
+  .exp-company { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--text); margin-bottom: 4px; }
+  .exp-period { font-family: var(--mono); font-size: 0.68rem; color: var(--text3); letter-spacing: 0.06em; margin-bottom: 8px; }
+  .exp-location { font-family: var(--mono); font-size: 0.68rem; color: var(--text3); letter-spacing: 0.04em; }
+  .exp-badge {
+    display: inline-block; margin-top: 10px;
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em;
+    padding: 3px 8px; border-radius: 2px;
+  }
+  .badge-current { background: rgba(200,245,66,0.12); color: var(--accent); border: 1px solid rgba(200,245,66,0.3); }
+  .badge-past { background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
+  .exp-content h3 { font-family: var(--display); font-weight: 600; font-size: 1.2rem; color: var(--text); margin-bottom: 0.75rem; }
+  .exp-content p.exp-desc { color: var(--text2); font-weight: 300; font-size: 0.95rem; margin-bottom: 1.2rem; line-height: 1.7; }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .exp-bullets li { font-size: 0.9rem; color: var(--text2); padding-left: 1rem; position: relative; font-weight: 300; line-height: 1.6; }
+  .exp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.75rem; top: 3px; }
+  .exp-bullets li strong { color: var(--text); font-weight: 400; }
+  .exp-tech { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tech-pill {
+    font-family: var(--mono); font-size: 0.65rem; padding: 2px 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 2px; color: var(--text3);
+  }
+
+  /* ── PROJECTS ── */
+  #projects { max-width: 1100px; margin: 0 auto; }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .project-card {
+    background: var(--bg); padding: 2rem;
+    transition: background 0.2s;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.5s, transform 0.5s, background 0.2s;
+  }
+  .project-card.visible { opacity: 1; transform: none; }
+  .project-card:hover { background: var(--surface); }
+  .project-num { font-family: var(--mono); font-size: 0.65rem; color: var(--text3); margin-bottom: 1rem; letter-spacing: 0.1em; }
+  .project-title { font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--text); margin-bottom: 0.6rem; line-height: 1.2; }
+  .project-desc { font-size: 0.88rem; color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 1.25rem; }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 1.25rem; }
+  .project-links { display: flex; gap: 1rem; }
+  .project-link {
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em;
+    color: var(--text3); text-decoration: none; display: flex; align-items: center; gap: 4px;
+    transition: color 0.2s;
+  }
+  .project-link:hover { color: var(--accent); }
+  .project-link svg { width: 12px; height: 12px; }
+  .coming-soon { opacity: 0.4; }
+  .soon-badge {
+    display: inline-block; font-family: var(--mono); font-size: 0.62rem;
+    padding: 2px 8px; background: rgba(200,245,66,0.1); color: var(--accent);
+    border: 1px solid rgba(200,245,66,0.25); border-radius: 2px; margin-bottom: 1rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── SKILLS ── */
+  #skills { max-width: 1100px; margin: 0 auto; }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .skill-group { background: var(--bg); padding: 1.5rem; }
+  .skill-group:hover { background: var(--surface); }
+  .skill-group-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 1rem; }
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+  .skill-list li { font-size: 0.88rem; color: var(--text2); font-weight: 300; }
+
+  /* ── CONTACT ── */
+  #contact {
+    max-width: 1100px; margin: 0 auto; text-align: center;
+    padding-top: 5rem; padding-bottom: 8rem;
+  }
+  .contact-big {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: -0.03em; line-height: 1; margin-bottom: 1.5rem;
+  }
+  .contact-big em { color: var(--accent); font-style: normal; }
+  .contact-sub { font-size: 1rem; color: var(--text2); font-weight: 300; max-width: 440px; margin: 0 auto 2.5rem; line-height: 1.7; }
+  .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .contact-btn {
+    font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em;
+    padding: 0.85rem 1.8rem; text-decoration: none; border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .contact-btn.primary { background: var(--accent); color: #000; }
+  .contact-btn.primary:hover { background: var(--accent2); }
+  .contact-btn.secondary { border: 1px solid var(--border2); color: var(--text2); }
+  .contact-btn.secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono); font-size: 0.68rem; color: var(--text3);
+    letter-spacing: 0.06em; flex-wrap: wrap; gap: 1rem;
+  }
+  footer a { color: var(--text3); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.25rem; }
+    .divider { margin: 0 1.25rem; }
+    #hero { padding: 0 1.25rem 4rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
+    .hero-stats { gap: 1.5rem; }
+    footer { padding: 1.5rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">JR<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <a href="mailto:jyoreddy222@gmail.com" class="nav-cta">hire me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-tag">// software engineer · java · spring boot · aws</div>
+  <h1 class="hero-name">Jyothi<br/>Red<em>dy</em></h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      Building <strong>production-grade backend systems</strong> for Fortune 500 companies.
+      5+ years in Java, Spring Boot, microservices, and event-driven architecture.
+      Currently learning <strong>Spring AI</strong>.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">years exp</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">30K+</div>
+        <div class="stat-label">events/day</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">35%</div>
+        <div class="stat-label">query boost</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">scroll</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">// 01 — about</div>
+  <div class="section-title">Who I am</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a Software Engineer with <strong>5+ years of experience</strong> building and scaling production systems at <strong>Target</strong> and <strong>Charles Schwab</strong> — two of the largest retail and financial companies in the US.</p>
+      <p>My core is <strong>Java and Spring Boot</strong>. I've designed microservices architectures from scratch, built event-driven systems processing 30,000+ real-time Kafka events per day, and optimized PostgreSQL databases to cut latency by 35% in high-load financial environments.</p>
+      <p>I'm comfortable across the full stack — Angular and React on the frontend, AWS on the cloud side, Jenkins and Docker for DevOps. I care about systems that <strong>hold up under pressure</strong>: clean APIs, observable services, and deployments that don't keep engineers up at night.</p>
+      <p>Right now I'm learning <strong>Spring AI</strong> to integrate LLM capabilities into Java backends. I'm actively looking for my next Software Engineer role.</p>
+    </div>
+    <div class="about-stack">
+      <div class="stack-group">
+        <div class="stack-group-label">backend</div>
+        <div class="stack-tags">
+          <span class="tag highlight">Java</span>
+          <span class="tag highlight">Spring Boot</span>
+          <span class="tag">Spring MVC</span>
+          <span class="tag highlight">Microservices</span>
+          <span class="tag">Hibernate</span>
+          <span class="tag">REST APIs</span>
+          <span class="tag">GraphQL</span>
+          <span class="tag highlight">Spring AI</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-label">data & messaging</div>
+        <div class="stack-tags">
+          <span class="tag highlight">Apache Kafka</span>
+          <span class="tag highlight">PostgreSQL</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Redis</span>
+          <span class="tag">Oracle</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-label">cloud & devops</div>
+        <div class="stack-tags">
+          <span class="tag highlight">AWS</span>
+          <span class="tag">GCP</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Kubernetes</span>
+          <span class="tag">Jenkins</span>
+          <span class="tag">GitHub Actions</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-label">frontend</div>
+        <div class="stack-tags">
+          <span class="tag">Angular</span>
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">// 02 — experience</div>
+  <div class="section-title">Where I've worked</div>
+  <div class="exp-list">
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-company">Target</div>
+        <div class="exp-period">Nov 2023 — Present</div>
+        <div class="exp-location">Minneapolis, MN</div>
+        <span class="exp-badge badge-current">current</span>
+      </div>
+      <div class="exp-content">
+        <h3>Software Engineer</h3>
+        <p class="exp-desc">Building backend systems and APIs for Target's content delivery platform, serving high-volume retail traffic across one of the largest e-commerce platforms in the US.</p>
+        <ul class="exp-bullets">
+          <li>Built and maintained <strong>15+ REST APIs</strong> in Java and Spring Boot handling peak retail traffic with Swagger/OpenAPI documentation</li>
+          <li>Integrated backend services with <strong>Adobe Experience Manager (AEM)</strong>, enabling content teams to publish pages independently</li>
+          <li>Secured <strong>10+ microservices</strong> using Spring Security, OAuth2, and JWT — passed all internal security audits</li>
+          <li>Optimized PostgreSQL schemas and queries, improving p95 response time on critical read paths</li>
+          <li>Deployed on <strong>AWS (Lambda, S3, EC2)</strong> with CI/CD via Jenkins and GitHub Actions</li>
+          <li>Mentored <strong>2 junior engineers</strong> through structured code reviews and pair programming</li>
+        </ul>
+        <div class="exp-tech">
+          <span class="tech-pill">Java</span><span class="tech-pill">Spring Boot</span><span class="tech-pill">Angular</span>
+          <span class="tech-pill">PostgreSQL</span><span class="tech-pill">AWS</span><span class="tech-pill">AEM</span>
+          <span class="tech-pill">OAuth2</span><span class="tech-pill">JWT</span><span class="tech-pill">Jenkins</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-company">Charles Schwab</div>
+        <div class="exp-period">Jun 2020 — Aug 2023</div>
+        <div class="exp-location">Hyderabad, India</div>
+        <span class="exp-badge badge-past">3 years</span>
+      </div>
+      <div class="exp-content">
+        <h3>Software Engineer</h3>
+        <p class="exp-desc">Built and scaled microservices for portfolio management and real-time trading systems in a high-compliance financial environment processing billions in daily transactions.</p>
+        <ul class="exp-bullets">
+          <li>Designed <strong>20+ secure REST APIs</strong> in Java 8 and Spring Boot for high-volume financial workloads</li>
+          <li>Built Kafka-based microservices processing <strong>30,000+ real-time trading events per day</strong> with low latency</li>
+          <li>Rewrote PostgreSQL query paths improving performance by <strong>35%</strong>, directly reducing trade settlement time</li>
+          <li>Decomposed a legacy monolithic trading system into independently deployable microservices</li>
+          <li>Monitored system health using <strong>Dynatrace, Splunk, and ELK Stack</strong> — reduced MTTD on production issues</li>
+          <li>Optimized JVM performance reducing garbage collection pauses during peak trading hours</li>
+        </ul>
+        <div class="exp-tech">
+          <span class="tech-pill">Java 8</span><span class="tech-pill">Spring Boot</span><span class="tech-pill">Apache Kafka</span>
+          <span class="tech-pill">PostgreSQL</span><span class="tech-pill">MongoDB</span><span class="tech-pill">Docker</span>
+          <span class="tech-pill">Dynatrace</span><span class="tech-pill">Splunk</span><span class="tech-pill">ELK</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">// 03 — projects</div>
+  <div class="section-title">What I've built</div>
+  <div class="projects-grid">
+
+    <div class="project-card coming-soon">
+      <div class="soon-badge">in progress</div>
+      <div class="project-num">01</div>
+      <div class="project-title">Spring AI Document Assistant</div>
+      <div class="project-desc">A RAG-powered REST API built with Spring AI and Spring Boot. Upload documents, ask questions in natural language, get intelligent answers backed by your own data. Integrates with OpenAI and Anthropic via Spring AI's unified API.</div>
+      <div class="project-tech">
+        <span class="tech-pill">Spring AI</span><span class="tech-pill">Spring Boot</span>
+        <span class="tech-pill">Java 17</span><span class="tech-pill">RAG</span>
+        <span class="tech-pill">PostgreSQL</span><span class="tech-pill">Docker</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/jyothi-reddy" class="project-link" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          coming soon
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card coming-soon">
+      <div class="soon-badge">in progress</div>
+      <div class="project-num">02</div>
+      <div class="project-title">Real-Time Event Pipeline</div>
+      <div class="project-desc">A demo microservices system using Apache Kafka for event streaming, Spring Boot for service logic, and PostgreSQL for persistence. Demonstrates the same architecture used at Charles Schwab for trading event processing.</div>
+      <div class="project-tech">
+        <span class="tech-pill">Apache Kafka</span><span class="tech-pill">Spring Boot</span>
+        <span class="tech-pill">PostgreSQL</span><span class="tech-pill">Docker</span>
+        <span class="tech-pill">Java 17</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/jyothi-reddy" class="project-link" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          coming soon
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card coming-soon">
+      <div class="soon-badge">in progress</div>
+      <div class="project-num">03</div>
+      <div class="project-title">Secure Auth Microservice</div>
+      <div class="project-desc">A production-ready authentication and authorization microservice using Spring Security, OAuth2, and JWT. Includes refresh token rotation, role-based access control, and rate limiting. Deployable via Docker Compose.</div>
+      <div class="project-tech">
+        <span class="tech-pill">Spring Security</span><span class="tech-pill">OAuth2</span>
+        <span class="tech-pill">JWT</span><span class="tech-pill">Spring Boot</span>
+        <span class="tech-pill">Redis</span><span class="tech-pill">Docker</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/jyothi-reddy" class="project-link" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          coming soon
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">// 04 — skills</div>
+  <div class="section-title">What I work with</div>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">languages</div>
+      <ul class="skill-list">
+        <li>Java (8, 11, 17)</li>
+        <li>JavaScript (ES6+)</li>
+        <li>TypeScript</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">backend</div>
+      <ul class="skill-list">
+        <li>Spring Boot</li>
+        <li>Spring MVC</li>
+        <li>Spring Security</li>
+        <li>Spring AI</li>
+        <li>Hibernate / JPA</li>
+        <li>REST APIs · GraphQL</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">data & messaging</div>
+      <ul class="skill-list">
+        <li>Apache Kafka</li>
+        <li>PostgreSQL · MySQL</li>
+        <li>MongoDB · Redis</li>
+        <li>Oracle</li>
+        <li>Elasticsearch</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">cloud & devops</div>
+      <ul class="skill-list">
+        <li>AWS (Lambda, S3, EC2)</li>
+        <li>GCP</li>
+        <li>Docker · Kubernetes</li>
+        <li>Jenkins · GitHub Actions</li>
+        <li>Maven · Gradle</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">frontend</div>
+      <ul class="skill-list">
+        <li>Angular</li>
+        <li>React</li>
+        <li>HTML5 · CSS3</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">observability & testing</div>
+      <ul class="skill-list">
+        <li>ELK Stack · OpenSearch</li>
+        <li>Dynatrace · Splunk</li>
+        <li>JUnit · Mockito</li>
+        <li>Postman · Selenium</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">// 05 — contact</div>
+  <div class="contact-big">Let's work<br/><em>together.</em></div>
+  <p class="contact-sub">I'm actively looking for Software Engineer or Senior Software Engineer roles in Java and Spring Boot. Open to fintech, retail tech, and enterprise SaaS.</p>
+  <div class="contact-links">
+    <a href="mailto:jyoreddy222@gmail.com" class="contact-btn primary">send me an email</a>
+    <a href="https://www.linkedin.com/in/jyothi-reddy-567ab1369" target="_blank" class="contact-btn secondary">linkedin</a>
+    <a href="https://github.com/jyothi-reddy" target="_blank" class="contact-btn secondary">github</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Jyothi Reddy</span>
+  <span>Software Engineer · Java · Spring Boot · AWS</span>
+  <a href="mailto:jyoreddy222@gmail.com">jyoreddy222@gmail.com</a>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.exp-item, .project-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
